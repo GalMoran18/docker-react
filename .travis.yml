@@ -1,0 +1,17 @@
+language: generic
+# permissions to run - gotta be sudo
+sudo: required
+
+# this will tell Travis to download and install docker
+services:
+  - docker
+
+#what do do before the run:
+#must docker build, -t and ID because we are not gonna copy SHA id here (it's automated). than we want to use Dockerfile.dev as it is used for testing.
+before_install:
+  - docker build -t galm18/docker-react -f Dockerfile.dev .
+
+#series of commands reqired to run the test suite
+# any other status code than 0 is failed command
+script:
+  - docker run -e CI=true galm18/docker-react npm run test
