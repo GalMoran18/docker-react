@@ -1,6 +1,8 @@
-language: generic
+
 # permissions to run - gotta be sudo
 sudo: required
+
+language: generic
 
 # this will tell Travis to download and install docker
 services:
