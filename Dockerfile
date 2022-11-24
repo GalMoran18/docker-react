@@ -13,6 +13,7 @@ RUN npm run build
 
 
 FROM nginx
+EXPOSE 80
 COPY  --from=builder home/node/app/build /usr/share/nginx/html
 #nginx will start as it is the default command.
 
