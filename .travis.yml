@@ -17,3 +17,27 @@ before_install:
 # any other status code than 0 is failed command
 script:
   - docker run -e CI=true galm18/docker-react npm run test -- --coverage
+
+#now for deploying the app to AWS Beanstalk after the tests passed:
+deploy:
+  #elastic comes with built in instructions for some sevices, inc beanstalk.
+  provider: elasticbeanstalk
+  #where the beanstalk was created. can see it via the URL of the beanstalk.
+  region: "us-east-1"
+  #name of app
+  app: "docker-react"
+  #name of enviroment
+  env: "Dockerreact-env-1"
+  #travis will take all the file and use them in an S3 bucket. we get it from S3 in AWS.
+  bucket_name: "elasticbeanstalk-us-east-1-153458760271"
+  #before first deployment, should be exactly like the app name.
+  bucket_path: "docker-react"
+
+  # we want to deploy the app only when master branch gets new code, so we need to specify that:
+
+  on:
+    branch: master
+
+    #using the access key we put in the travis dashboard-settings:
+  access_key_id: $AWS_ACCESS_KEY
+  secret_access_key: "$AWS_SECRET_KEY"
